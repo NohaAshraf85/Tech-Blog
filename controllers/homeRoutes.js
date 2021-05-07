@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { BlogPost, User } = require('../models');
+const { BlogPost, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
       // Serialize data so the template can read it
     const blogs = blogsData.map((blog) => blog.get({ plain: true }));
-
+console.log(blogs);
     // Pass serialized data and session flag into template
     res.render('homepage', { 
       blogs, 
@@ -40,8 +40,8 @@ router.get('/blog/:id', async (req, res) => {
 
     const blog = blogsData.get({ plain: true });
 
-    res.render('project', {
-      ...blogs,
+    res.render('blog', {
+      ...blog,
       logged_in: req.session.logged_in
     });
   } catch (err) {
@@ -49,4 +49,4 @@ router.get('/blog/:id', async (req, res) => {
   }
 });
 
-
+module.exports = router;
